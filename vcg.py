@@ -52,7 +52,14 @@ class VCG:
             c = slot_clicks
             n = len(allocation)
 
-            # TODO: Compute the payment and return it.
+            # TODO: Compute the payment and r eturn it.
+            if k == n - 1:
+                if len(valid_bids) == n:
+                    return c[k] * reserve
+                (_, next_highest_bid) = valid_bids[n]
+                return c[k] * max(reserve, next_highest_bid)
+            else:
+                return (c[k] - c[k + 1]) * just_bids[k + 1] + total_payment(k + 1)
 
         def norm(totals):
             """Normalize total payments by the clicks in each slot"""
