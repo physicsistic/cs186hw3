@@ -36,8 +36,31 @@ There is a improvement of \$1683.18 or approximately 67.3\%.
 \\
 \\
 We see that the balanced bidding agents result in a better total utility of the bidding. This is because truthfulness is not an equilbrium in the generalized second price auction, while balanced bidding is an equilibrium. Switching from all truthful to all balanced bidding is a pareto improvement.
-\subsection{Truthful vs Mewzybb}
-When
+\subsection{Truthful vs Balanced Bidding}
+We again run the simulation with seed 5, permutation 10 and 200 iterations, the results are shown below:
+\begin{itemize}
+	\item 4 truthful agents \& 1 balanced bidding agent
+		\begin{center}
+		\begin{tabular}{| c | c | c | c | c | }
+			\hline
+			Truthful 1 & Truthful 2 & Truthful 3 & Truthful 4 & BB 1\\ \hline
+			\$371.94 & \$356.79 & \$356.18 & \$348.80 & \$577.03 \\ \hline
+		\end{tabular}
+		\end{center}
+	\item 1 truthful agent \& 4 balanced bidding agents
+		\begin{center}
+		\begin{tabular}{| c | c | c | c | c | }
+			\hline
+			Truthful 1 & BB 1 & BB 2 & BB 3 & BB 4 \\ \hline
+			\$647.75 & \$646.91 & \$641.80 & \$631.33 & \$651.80 \\ \hline
+		\end{tabular}
+		\end{center}
+\end{itemize}
+The results show that for the first case of 4 truthful agents and 1 balanced bidding agent, the balanced bidding agent performed better than the rest with an average utility of \$577.03 and for the second case of 1 truthful agents and 4 balanced bidding agents, every single agents average utilities were of comparable level.
+\\
+\\
+This suggests that when everyone is playing truthful bidding, there is an incentive for an agent to deviate away from playing truthful and play balanced bidding instead, whereas when everyone is playing balanced bidding, playing truthful doesn't changed the expected utility of the game.
 \section{Auction Design and Reserve Prices}
+\subsection{Revenue under GSP with various reserve price}
 \section{Budget constraints}
 \end{document}
