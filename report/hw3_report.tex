@@ -62,5 +62,33 @@ The results show that for the first case of 4 truthful agents and 1 balanced bid
 This suggests that when everyone is playing truthful bidding, there is an incentive for an agent to deviate away from playing truthful and play balanced bidding instead, whereas when everyone is playing balanced bidding, playing truthful doesn't changed the expected utility of the game.
 \section{Auction Design and Reserve Prices}
 \subsection{Revenue under GSP with various reserve price}
+With no reserve price and all agents using balanced bidding under GSP the auctioneer's revenue is $\$4713.48$. As the reserve price increases, the revenue of the auctioneer increases, but only for a limited time. At a certain point (in this case around $80$ cents) the revenue begins to decline again as the reserve price forces too many bidders out of the auction. This behavior can be observed in the following graph.
+\subsection{Implement VCG}
+The following is our implementation of the payment rule, which in conjunction with the distribution code fully implements the VCG auction.
+\begin{verbatim}
+        def total_payment(k):
+            """
+            Total payment for a bidder in slot k.
+            """
+            c = slot_clicks
+            n = len(allocation)
+
+            # TODO: Compute the payment and r eturn it.
+            if k == n - 1:
+                if len(valid_bids) == n:
+                    return c[k] * reserve
+                (_, next_highest_bid) = valid_bids[n]
+                return c[k] * max(reserve, next_highest_bid)
+            else:
+                return (c[k] - c[k + 1]) * just_bids[k + 1] + total_payment(k + 1)
+\end{verbatim}
+\subsection{Revenue under VCG}
+With no reserve price and all agents using truthful bidding under VCG the auctioneer's revenue is $\$4530.65$. As the reserve price increases, the revenue of the auctioneer increases, but only for a limited time. At a certain point (in this case again around $80$ cents) the revenue begins to decline again as the reserve price forces too many bidders out of the auction. This behavior can be observed in the above graph. This is exceedingly similar to the results in part a, which makes sense given that balanced bidding under GSP produces the same equilibrium outcome as truthful bidding under VCG.
+\subsection{Switching midstream}
+With a reserve price of $0$, a switch from GSP to VCG at round $24$ and all agents using balanced bidding causes a revenue of $\$4275.20$. This is less than the $\$4713.48$ they would have gotten from sticking with GSP (see part a).
+\subsection{Bigger picture}
+These exercises have demonstrated to us the theory that different strategies under different auction structures can behave identically in equilibrium outcome. We saw how different auction structures lead to varying complex rules of bidding, allocation, and payment. This was also a valuable example of the Revenue Equivalence Theorem in practice. Finally, we saw one possible reason why Google and other sites that sell ads with GSP might be hesistant to switch to VCG. If they were to switch, bidders might not immediately switch to the truthful strategy and they would lose money during the period of adjustment.   
+
+
 \section{Budget constraints}
 \end{document}
