@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 
 import sys
+import math
+
 
 from gsp import GSP
 from util import argmax_index
 
-class BBAgent:
+class Mewzybudget:
     """Balanced bidding agent"""
     def __init__(self, id, value, budget):
         self.id = id
@@ -50,7 +52,27 @@ class BBAgent:
         returns a list of utilities per slot.
         """
         # TODO: Fill this in
+        # Begin added code
+        def iround(x):
+            """Round x and return an int"""
+            return int(round(x))
+
+        def calc_clicks(t, history):
+            top_slot_clicks = iround(30*math.cos(math.pi*t/24) + 50)
+            num_slots = max(1, history.n_agents-1) 
+            return [iround(top_slot_clicks * pow(.75, i))
+                          for i in range(num_slots)]
+        
+        slots = self.slot_info(t, history, reserve)
+
+        # prev_round = history.round(t-1)
+        # clicks = prev_round.clicks
+        new_clicks = calc_clicks(t, history)
+
         utilities = []   # Change this
+        for (slot_id, min_bid, max_bid) in slots:
+            utilities.append(new_clicks[slot_id] * (self.value - min_bid))
+        # End added code
 
         
         return utilities
@@ -84,9 +106,44 @@ class BBAgent:
         (slot, min_bid, max_bid) = self.target_slot(t, history, reserve)
 
         # TODO: Fill this in.
-        bid = 0  # change this
-        
-        return bid
+        clicks = prev_round.clicks
+
+        def iround(x):
+            """Round x and return an int"""
+            return int(round(x))
+
+        def calc_clicks(t, history):
+            top_slot_clicks = iround(30*math.cos(math.pi*t/24) + 50)
+            num_slots = max(1, history.n_agents-1) 
+            return [iround(top_slot_clicks * pow(.75, i))
+                          for i in range(num_slots)]
+
+        new_clicks = calc_clicks(t, history)
+        # top_slot_clicks = iround(30*math.cos(math.pi*t/24) + 50)
+
+        # if t < 47:
+        #     bid = 0  # change this
+        #     set_aside = (48 - t) * (1 + self.value)
+        #     spendable = self.budget - set_aside
+        #     top_clicks = top_slot_clicks
+        #     bid = spendable / top_clicks
+        #     return bid
+        # else:
+        #     return 99999999
+
+        if t < 46:
+            if min_bid >= self.value:
+                bid = self.value
+            else:
+                if slot > 0:
+                    bid = self.value - (new_clicks[slot] * (self.value - min_bid) / new_clicks[slot - 1])
+                else:
+                    bid = self.value
+            return bid
+        elif t == 46:
+            return self.budget - 1
+        else:
+            return 99999999
 
     def __repr__(self):
         return "%s(id=%d, value=%d)" % (
