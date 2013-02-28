@@ -5,7 +5,7 @@ import sys
 from gsp import GSP
 from util import argmax_index
 
-class mewzybb:
+class Mewzybb:
     """Balanced bidding agent"""
     def __init__(self, id, value, budget):
         self.id = id
@@ -60,7 +60,6 @@ class mewzybb:
         for (slot_id, min_bid, max_bid) in slots:
             utilities.append(clicks[slot_id] * (self.value - min_bid))
         # End added code
-        
         return utilities
 
     def target_slot(self, t, history, reserve):
@@ -92,22 +91,15 @@ class mewzybb:
         (slot, min_bid, max_bid) = self.target_slot(t, history, reserve)
 
         # TODO: Fill this in.
-        prev_round = history.round(t-1)
         clicks = prev_round.clicks
         bid = 0  # change this
         if min_bid >= self.value:
             bid = self.value
         else:
-            if slot > 1:
-                bid = self.value - (clicks[slot] / clicks[slot - 1])\
-                 * (self.value - min_bid)
+            if slot > 0:
+                bid = self.value - (clicks[slot] * (self.value - min_bid) / clicks[slot - 1])
             else:
                 bid = self.value
-
-
-
-
-        
         return bid
 
     def __repr__(self):

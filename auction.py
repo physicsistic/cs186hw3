@@ -21,8 +21,8 @@ from vcg import VCG
 from history import History
 from stats import Stats
 
-#from bbagent import BBAgent
-#from truthfulagent import TruthfulAgent
+# from mewzybb import Mewzybb
+# from truthful import Truthful
 
 from util import argmax_index, shuffled, mean, stddev
 
@@ -236,6 +236,7 @@ def parse_agents(args):
             ans.extend([name]*int(count))
         else:
             raise ValueError("Bad argument: %s\n" % c)
+
     return ans
 
 def main(args):
